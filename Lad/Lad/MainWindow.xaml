@@ -1,0 +1,132 @@
+﻿<Window x:Class="Lad.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Lad"
+        mc:Ignorable="d"
+        Title="Лад" 
+        MinHeight="600" Height="700"
+        MinWidth="1100" Width="1300"
+        Background="Wheat"
+        WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <ControlTemplate  TargetType="Button" x:Key="Circle">
+            <Grid>
+                <ContentPresenter Content="{TemplateBinding Content}"
+                    VerticalAlignment="Center" 
+                    HorizontalAlignment="Center"/>
+            </Grid>
+        </ControlTemplate>
+    </Window.Resources>
+    <Grid Name="Parent">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Border Height="200" Width="300"  BorderThickness="1"  Visibility="Collapsed"
+                Background="#474747" Name="LoignPanel">
+            <Border.Effect>
+                <DropShadowEffect ShadowDepth="0" BlurRadius="400"></DropShadowEffect>
+            </Border.Effect>
+            <StackPanel VerticalAlignment="Center">
+                <TextBox BorderBrush="LightBlue" BorderThickness="2" TextAlignment="Center" 
+                         FontSize="20" Background="Transparent"
+                         Margin="10" Height="40"></TextBox>
+                <PasswordBox BorderBrush="LightBlue" BorderThickness="2" HorizontalContentAlignment="Center"
+                         FontSize="20" Background="Transparent"
+                         Margin="10" Height="40"></PasswordBox>
+                <Button Margin="10" Content="Войти" Height="40" ></Button>
+            </StackPanel>
+        </Border>
+
+        <Grid Width="{Binding ElementName=MenuIcon, Path=Width}" 
+              Background="#009688" Name="Menu">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="6*"/>
+                <RowDefinition Height="94*"/>
+            </Grid.RowDefinitions>
+            <Border BorderThickness="0"
+                    BorderBrush="#171717">
+                <Image Name="MenuIcon" Width="40" Height="30" 
+                       Stretch="Fill" 
+                       Source="Content/Image/menu.png"
+                       Margin="0" 
+                       HorizontalAlignment="Right" 
+                   MouseLeftButtonDown="ShowMenu" Cursor="Hand" ></Image>
+            </Border>
+            <Grid Visibility="Collapsed" Name="GridMenu" Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="10*"/>
+                    <RowDefinition Height="5*"/>
+                    <RowDefinition Height="5*"/>
+                    <RowDefinition Height="80*"/>
+                </Grid.RowDefinitions>
+                <TextBox Name="QuerySection" Grid.Row="0" 
+                     Background="Transparent" BorderThickness="2"
+                     BorderBrush="Coral"
+                     FontSize="16"
+                     TextChanged="QuerySectionInput"
+                     VerticalContentAlignment="Center"
+                     TextAlignment="Center"
+                     Margin="20,15,20,15"></TextBox>
+                <Button Template="{StaticResource Circle}" Height="25" Grid.Row="1"
+                        VerticalAlignment="Top" Cursor="Hand" Click="ShowReport">
+                    <Button.Content>
+                        <TextBlock Text="Отчеты" FontSize="16" FontWeight="Medium"
+                                   TextAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                    </Button.Content>
+                </Button>
+                <Button Template="{StaticResource Circle}" Height="25" Grid.Row="2"
+                        VerticalAlignment="Top" Cursor="Hand" Click="AddSection">
+                    <Button.Content>
+                        <TextBlock Text="Добавить секцию" FontSize="16" FontWeight="Medium"
+                                   TextAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                    </Button.Content>
+                </Button>
+                <ListBox Background="Transparent" HorizontalContentAlignment="Stretch"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                         Margin="0,30,0,0"
+                 ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                 BorderBrush="Coral" BorderThickness="0,0,0,0" Grid.Row="3"
+                 Name="Sections">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Cursor="Hand" >
+                                <Label Margin="0" 
+                                   VerticalContentAlignment="Stretch"
+                                   HorizontalContentAlignment="Stretch">
+                                    <Label.Content>
+                                        <Grid>
+                                            <TextBlock MouseLeftButtonDown="GetLearningList" Tag="{Binding SectionId}"
+                                            FontSize="16" FontWeight="Medium" Text="{Binding Name}"></TextBlock>
+                                            <Image Tag="{Binding SectionId}" 
+                                               Height="22" 
+                                               Width="22" Margin="0,0,30,0"
+                                               MouseLeftButtonDown="DeleteSection"
+                                               Source="Content/Image/delete.png" 
+                                               HorizontalAlignment="Right">
+                                            </Image>
+                                            <Image Tag="{Binding SectionId}" 
+                                               Height="20" 
+                                               Width="20" 
+                                               MouseLeftButtonDown="EditSection"
+                                               Source="Content/Image/edit.png" 
+                                               HorizontalAlignment="Right">
+                                            </Image>
+                                        </Grid>
+                                    </Label.Content>
+                                </Label>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+        </Grid>
+        <Frame Grid.Column="1" Name="Body"
+               Background="Transparent"
+               Source="Content/Views/Startup.xaml"
+               NavigationUIVisibility="Hidden"
+               Margin="0"></Frame>
+    </Grid>
+</Window>
